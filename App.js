@@ -1,11 +1,30 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, AsyncStorage, StatusBar } from 'react-native';
+import {createStore} from 'redux';
+import {Provider} from 'react-redux';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import TelaTarefas from './src/TelasDeTarefas/TelaTarefas';
+import TelaLogin from './src/TelasLogin/Login';
+import TelaCadastro from './src/TelasLogin/Cadastro';
+import { reducer } from './src/reducers/reducer';
 
+const store =  createStore(reducer)
+const Stack = createStackNavigator();
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-    </View>
+    <Provider store={store}>
+    <NavigationContainer>
+      <StatusBar/>
+        <Stack.Navigator 
+        initialRouteName="TelaLogin"
+        screenOptions={{ headerShown: false}}>
+          <Stack.Screen name="TelaLogin" component={TelaLogin}/>
+          <Stack.Screen name="TelaCadastro" component={TelaCadastro} />
+          <Stack.Screen name="TelaTarefas" component={TelaTarefas} />
+        </Stack.Navigator>
+    </NavigationContainer>
+     </Provider>
   );
 }
 
